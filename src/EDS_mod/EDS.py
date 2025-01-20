@@ -9,7 +9,6 @@ import numpy as np
 import nbformat as nbf
 import glob
 import os
-from gofer.ok import check
 from tqdm.notebook import tqdm, trange
 # from sentence_transformers import CrossEncoder
 import torch
@@ -162,21 +161,3 @@ def check_open(file,notebook):
     sc=test_open_score(data[1],notebook,60,data[-1])
     score = (sc > 0.4)*1
     return score
-def evaluate(questions, name, username):
-    correct = 0
-    for x in questions:
-        print("Testing question {}: ".format(x))
-        display(check("tests/q{}.py".format(x)))
-        score = check('tests/q{}.py'.format(str(x)))
-        if score.grade == 1.0:
-            correct += 1
-    perc_correct = correct/len(questions)*100
-    if perc_correct < 80:
-        msg = 'look over your work again, seek help, some errors!!!'
-    else:
-        msg = 'nice work!'
-    print(f"\n----------------\n{name} {msg}\n----------------\nusername: {user}")
-    localtime = time.asctime( time.localtime(time.time()) )
-    print("Submitted @ ", localtime)
-    print(f'Score: {perc_correct:.1f}%\n----------------')
-    return perc_correct
